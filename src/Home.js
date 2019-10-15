@@ -1,35 +1,26 @@
-import React from "react";
-import { Query } from "react-apollo";
-import gql from "graphql-tag";
-import app from "./base";
+import React, { useContext } from "react";
+import { AuthContext } from "./Auth.js";
+import Posts from "./posts";
+import ApolloClient from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
 
-const Home = () => (
-  <Query
-    query={gql`
-      {
-        posts {
-          id
-          title
-        }
-      }
-    `}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return <p>Good things take time....</p>;
-      if (error) return <p>Something went wrong...</p>;
+const Home = () => {
+  const { currentUser } = useContext(AuthContext);
+  const token = currentUser.ra;
+  const client = new ApolloClient({
+    headers: {
+      authorization: token ? `Bearer ${token}` : ""
+    },
+    uri: "http://localhost:3000/graphql"
+  });
 
-      return (
-        <div className="row">
-          <h1>Home</h1>
-          <h2>Welcome to K-Sato's App</h2>
-          {data.posts.map(post => (
-            <h4 key={post.id}>{post.title}</h4>
-          ))}
-          <button onClick={() => app.auth().signOut()}>Sign out</button>
-        </div>
-      );
-    }}
-  </Query>
-);
+  return (
+    <ApolloProvider client={client}>
+      <div>
+        <Posts />
+      </div>
+    </ApolloProvider>
+  );
+};
 
 export default Home;
