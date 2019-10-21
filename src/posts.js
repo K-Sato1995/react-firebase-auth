@@ -16,7 +16,13 @@ const Posts = () => (
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Good things take time....</p>;
-      if (error) return <p>Something went wrong...</p>;
+      if (error)
+        return (
+          <div>
+            <p>Something went wrong...</p>
+            <button onClick={() => app.auth().signOut()}>Sign out</button>
+          </div>
+        );
 
       return (
         <div className="row">
