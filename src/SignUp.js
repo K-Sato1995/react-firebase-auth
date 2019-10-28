@@ -12,6 +12,7 @@ const SignUp = ({ history }) => {
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
           .then(cred => {
+            /// Creating the user with custom information in firestore.
             db.collection("users")
               .doc(cred.user.uid)
               .set({
