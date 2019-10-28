@@ -17,7 +17,7 @@ const Home = () => {
   return (
     <ApolloProvider client={client}>
       <div>
-        <Posts />
+        <Posts currentUser={currentUser} />
       </div>
     </ApolloProvider>
   );
