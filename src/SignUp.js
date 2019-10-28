@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
-import { app, db } from "./base";
+import { app } from "./base";
 
 const SignUp = ({ history }) => {
   const handleSignUp = useCallback(
@@ -14,11 +14,6 @@ const SignUp = ({ history }) => {
           .then(cred => {
             /// Creating the user with custom information in firestore.
             console.log(cred);
-            db.collection("users")
-              .doc(cred.user.uid)
-              .set({
-                role: role.value
-              });
           });
         history.push("/");
       } catch (error) {
