@@ -1,9 +1,28 @@
 import React from "react";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
-import app from "./base";
+import { app, db } from "./base";
 
-const Posts = () => (
+const addUser = () => {
+  db.collection("users").add({
+    age: 14,
+    name: "From the app",
+    role: "sub-admin"
+  });
+};
+
+const fetchUsers = () => {
+  db.collection("users")
+    .get()
+    .then(querySnapshot => {
+      querySnapshot.forEach(doc => {
+        console.log(doc.id);
+        console.log(doc.data());
+      });
+    });
+};
+
+const Posts = ({ currentUser }) => (
   <Query
     query={gql`
       {
@@ -27,10 +46,11 @@ const Posts = () => (
       return (
         <div className="row">
           <h1>Home Page</h1>
-          {data.posts.map(post => (
-            <h4 key={post.id}>{post.title}</h4>
-          ))}
+          {console.log(currentUser)}
+          <h3>User Email: {currentUser.email}</h3>
           <button onClick={() => app.auth().signOut()}>Sign out</button>
+          <button onClick={addUser}>Add user</button>
+          <button onClick={fetchUsers}>Fetch users</button>
         </div>
       );
     }}
