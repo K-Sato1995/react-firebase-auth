@@ -46,7 +46,6 @@ const Posts = ({ currentUser }) => (
       return (
         <div className="row">
           <h1>Home Page</h1>
-          {console.log(currentUser)}
           <h3>User Email: {currentUser.email}</h3>
           <button onClick={() => app.auth().signOut()}>Sign out</button>
           <button onClick={addUser}>Add user</button>
