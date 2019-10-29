@@ -1,8 +1,11 @@
 import React, { useCallback } from "react";
 import { withRouter } from "react-router";
-import { app, db } from "./base";
+import { app } from "./base";
+import { useMutation } from "@apollo/react-hooks";
+import CREATE_USER from "./mutations/createUser";
 
 const SignUp = ({ history }) => {
+  const [createUser] = useMutation(CREATE_USER);
   const handleSignUp = useCallback(
     async event => {
       event.preventDefault();
@@ -12,12 +15,14 @@ const SignUp = ({ history }) => {
           .auth()
           .createUserWithEmailAndPassword(email.value, password.value)
           .then(cred => {
-            /// Creating the user with custom information in firestore.
-            db.collection("users")
-              .doc(cred.user.uid)
-              .set({
+            /// Creating the user in Rails DB
+            createUser({
+              variables: {
+                uid: cred.user.uid,
+                name: email.value,
                 role: role.value
-              });
+              }
+            });
           });
         history.push("/");
       } catch (error) {
@@ -41,7 +46,7 @@ const SignUp = ({ history }) => {
         </label>
         <label>
           Role
-          <input name="role" type="text" placeholder="Role" />
+          <input name="role" type="number" placeholder="Role" />
         </label>
         <button type="submit">Sign Up</button>
       </form>
