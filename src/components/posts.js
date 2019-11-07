@@ -1,7 +1,7 @@
 import React from "react";
-import { app } from "./base";
+import { app } from "../base";
 import { useQuery } from "@apollo/react-hooks";
-import GET_POSTS from "./queries/getPosts";
+import GET_POSTS from "../queries/getPosts";
 
 const Posts = ({ currentUser }) => {
   const { data, loading, error } = useQuery(GET_POSTS);
