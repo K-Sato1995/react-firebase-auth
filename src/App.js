@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import Home from "./Home";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import PrivateRoute from "./PrivateRoute";
+import Home from "./components/Home";
+import Login from "./auth/Login";
+import SignUp from "./auth/SignUp";
+import PrivateRoute from "./auth/PrivateRoute";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
-import { AuthContext } from "./Auth.js";
+import { AuthContext } from "./auth/AuthProvider";
 
 const App = () => {
   const { currentUser } = useContext(AuthContext);
