@@ -8,11 +8,3 @@ export const app = firebase.initializeApp({
   storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID,
 });
-
-const createNewUser = firebase.functions().httpsCallable("createNewUser");
-
-console.log(createNewUser);
-createNewUser({
-  email: "TssssS@example.com",
-  password: "111111",
-});
