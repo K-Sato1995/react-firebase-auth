@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { app } from "../base.js";
+import { app, checkUser } from "../base.js";
 
 export const AuthContext = React.createContext();
 
@@ -8,8 +8,14 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password, history) => {
     try {
-      await app.auth().signInWithEmailAndPassword(email, password);
-      history.push("/");
+      const result = await checkUser({ email: email });
+
+      if (result.data.isTrusted) {
+        await app.auth().signInWithEmailAndPassword(email, password);
+        history.push("/");
+      } else {
+        alert("YOU ARE NOT A TRUSTED USER");
+      }
     } catch (error) {
       alert(error);
     }
@@ -33,7 +39,7 @@ export const AuthProvider = ({ children }) => {
       value={{
         login: login,
         signup: signup,
-        currentUser
+        currentUser,
       }}
     >
       {children}
